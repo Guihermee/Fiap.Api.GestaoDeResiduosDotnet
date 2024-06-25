@@ -1,4 +1,14 @@
+using Fiap.Api.GestaoDeResiduos.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+#region Configuração do banco
+var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+builder.Services.AddDbContext<DatabaseContext>(
+    opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(true)
+);
+#endregion
 
 // Add services to the container.
 
