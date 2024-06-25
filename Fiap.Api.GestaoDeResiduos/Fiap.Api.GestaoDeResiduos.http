@@ -1,0 +1,6 @@
+@Fiap.Api.GestaoDeResiduos_HostAddress = http://localhost:5201
+
+GET {{Fiap.Api.GestaoDeResiduos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
