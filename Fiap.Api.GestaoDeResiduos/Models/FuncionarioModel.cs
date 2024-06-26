@@ -2,11 +2,11 @@
 {
     public class FuncionarioModel
     {
-        public int IdFuncionario { get; set; }
-        public string? NmFuncionario { get; set; }
-        public string? NmFuncao { get; set; }
-        public string? NmDept{ get; set; }
-        public int IdCaminhao { get; set; }
+        public int ID_FUNCIONARIO { get; set; }
+        public string? NM_FUNCIONARIO { get; set; }
+        public string? NM_FUNCAO { get; set; }
+        public string? NM_DEPT { get; set; }
+        public int T_CAMINHAO_ID_CAMINHAO { get; set; }
         public CaminhaoModel? Caminhao { get; set; }
     }
 }
