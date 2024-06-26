@@ -1,5 +1,6 @@
 ﻿using Fiap.Api.GestaoDeResiduos.Model;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fiap.Api.GestaoDeResiduos.Data.Context
 {
@@ -18,7 +19,7 @@ namespace Fiap.Api.GestaoDeResiduos.Data.Context
 			{
 				entity.ToTable("T_ATERRO");
 				entity.HasKey(e => e.ID_ATERRO);
-				entity.Property(e => e.QTD_ATUAL).IsRequired();
+                entity.Property(e => e.QTD_ATUAL).IsRequired();
 				entity.Property(e => e.QTD_ATERRO).IsRequired();
 				entity.Property(e => e.NM_LOCALIZACAO).IsRequired();
 				entity.Property(e => e.ST_CAPACIDADE).HasColumnType("NUMBER(1)").IsRequired();
@@ -67,10 +68,10 @@ namespace Fiap.Api.GestaoDeResiduos.Data.Context
 				entity.HasKey(e => e.ID_ROTA);
 
 				// Relacionamento com Caminhao
-				entity.HasOne(e => e.Caminhao).WithOne(p => p.Rota).HasForeignKey<RotaModel>(e => e.T_CAMINHAO_ID_CAMINHAO);
+				entity.HasOne(e => e.Caminhao).WithMany(e => e.Rota).HasForeignKey(e => e.T_CAMINHAO_ID_CAMINHAO);
 
 				// Relacionamento com Aterro
-				entity.HasOne(e => e.Aterro).WithOne(p => p.Rota).HasForeignKey<AterroModel>(e => e.ID_ATERRO);
+				entity.HasOne(e => e.Aterro).WithMany(e => e.Rota).HasForeignKey(e => e.T_ATERRO_ID_ATERRO);
 
 			});
 		}

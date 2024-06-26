@@ -14,6 +14,6 @@
         public List<FuncionarioModel> Funcionarios { get; set; }
 
         // Relacionamento com Rota
-        public RotaModel Rota { get; set; }
+        public ICollection<RotaModel> Rota { get; set; }
     }
 }

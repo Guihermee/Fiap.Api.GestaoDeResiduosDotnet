@@ -28,5 +28,30 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 
 			return viewModelList;
 		}
-	}
+
+		[HttpPost]
+		public IActionResult Post([FromBody] RotaViewModel rota)
+        {
+
+            if (rota == null)
+            {
+                return BadRequest();
+            }
+
+            _rotaService.CriarRota(_mapper.Map<RotaModel>(rota));
+
+            return CreatedAtAction(nameof(Get), new { id = rota.ID_ROTA }, rota);
+        }
+
+
+        //delete
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute] int id)
+        {
+            _rotaService.DeletarRota(id);
+
+            return NoContent();
+        }
+
+    }
 }

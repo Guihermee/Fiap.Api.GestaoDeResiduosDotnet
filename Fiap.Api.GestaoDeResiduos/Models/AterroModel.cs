@@ -9,6 +9,6 @@
         public bool ST_CAPACIDADE { get; set; }
 
         // Relacionamento com Rota
-        public RotaModel Rota { get; set; }
+        public ICollection<RotaModel> Rota { get; set; }
     }
 }

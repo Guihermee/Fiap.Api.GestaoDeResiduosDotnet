@@ -13,8 +13,23 @@ namespace Fiap.Api.GestaoDeResiduos.Services
 			this.caminhaoRepository = caminhaoRepository;
 		}
 
-		public IEnumerable<CaminhaoModel> GetAll() => caminhaoRepository.GetAll();
+        public IEnumerable<CaminhaoModel> GetAll() => caminhaoRepository.GetAll();
 
-		public CaminhaoModel GetById(int id) => caminhaoRepository.GetById(id);	
-	}
+		public CaminhaoModel GetById(int id) => caminhaoRepository.GetById(id);
+
+        public void AtualizarCaminhao(CaminhaoModel caminhao)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CriarCaminhao(CaminhaoModel caminhao)
+        {
+            caminhaoRepository.Add(caminhao);
+        }
+
+        public void DeletarCaminhao(int id)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

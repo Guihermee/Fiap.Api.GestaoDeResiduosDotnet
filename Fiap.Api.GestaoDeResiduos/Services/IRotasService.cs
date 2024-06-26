@@ -6,5 +6,8 @@ namespace Fiap.Api.GestaoDeResiduos.Services
 	{
 		IEnumerable<RotaModel> GetAll();
 		RotaModel GetById(int id);
+		void CriarRota(RotaModel rota);
+		void AtualizarRota(RotaModel rota);
+		void DeletarRota(int id);
 	}
 }

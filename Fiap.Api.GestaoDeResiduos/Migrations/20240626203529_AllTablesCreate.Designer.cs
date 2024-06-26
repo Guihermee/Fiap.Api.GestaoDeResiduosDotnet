@@ -11,8 +11,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace Fiap.Api.GestaoDeResiduos.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240625033656_AllFiveTables")]
-    partial class AllFiveTables
+    [Migration("20240626203529_AllTablesCreate")]
+    partial class AllTablesCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,143 +26,135 @@ namespace Fiap.Api.GestaoDeResiduos.Migrations
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.AterroModel", b =>
                 {
-                    b.Property<int>("IdAterro")
+                    b.Property<int>("ID_ATERRO")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<string>("NmLocalizacao")
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_ATERRO"));
+
+                    b.Property<string>("NM_LOCALIZACAO")
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
 
-                    b.Property<int>("QqtdAtual")
+                    b.Property<int>("QTD_ATERRO")
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<int>("QtdAterro")
+                    b.Property<int>("QTD_ATUAL")
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<bool>("StCapacidade")
+                    b.Property<bool>("ST_CAPACIDADE")
                         .HasColumnType("NUMBER(1)");
 
-                    b.HasKey("IdAterro");
+                    b.HasKey("ID_ATERRO");
 
-                    b.ToTable("Aterro", (string)null);
+                    b.ToTable("T_ATERRO", (string)null);
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", b =>
                 {
-                    b.Property<int>("IdCaminhao")
+                    b.Property<int>("ID_CAMINHAO")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("NUMBER(10)");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCaminhao"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_CAMINHAO"));
 
-                    b.Property<string>("NmLocalizacao")
-                        .IsRequired()
+                    b.Property<string>("NM_LOCALIZACAO")
                         .HasColumnType("NVARCHAR2(2000)");
 
-                    b.Property<int>("QtdAtual")
+                    b.Property<int>("QTD_ATUAL")
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<int>("VlCapacidade")
+                    b.Property<int>("VL_CAPACIDADE")
                         .HasColumnType("NUMBER(10)");
 
-                    b.HasKey("IdCaminhao");
+                    b.HasKey("ID_CAMINHAO");
 
-                    b.ToTable("Caminhao", (string)null);
+                    b.ToTable("T_CAMINHAO", (string)null);
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.ColetaModel", b =>
                 {
-                    b.Property<int>("IdColeta")
+                    b.Property<int>("ID_COLETA")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("NUMBER(10)");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdColeta"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_COLETA"));
 
-                    b.Property<int>("IdCaminhao")
-                        .HasColumnType("NUMBER(10)");
-
-                    b.Property<string>("NmLocalizacao")
+                    b.Property<string>("NM_LOCALIZACAO")
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
 
-                    b.Property<bool>("StColeta")
+                    b.Property<bool>("ST_COLETA")
                         .HasColumnType("NUMBER(1)");
 
-                    b.HasKey("IdColeta");
+                    b.Property<int>("T_CAMINHAO_ID_CAMINHAO")
+                        .HasColumnType("NUMBER(10)");
 
-                    b.HasIndex("IdCaminhao");
+                    b.HasKey("ID_COLETA");
 
-                    b.ToTable("Coleta", (string)null);
+                    b.HasIndex("T_CAMINHAO_ID_CAMINHAO");
+
+                    b.ToTable("T_COLETA", (string)null);
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.FuncionarioModel", b =>
                 {
-                    b.Property<int>("IdFuncionario")
+                    b.Property<int>("ID_FUNCIONARIO")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("NUMBER(10)");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdFuncionario"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_FUNCIONARIO"));
 
-                    b.Property<int>("IdCaminhao")
+                    b.Property<string>("NM_DEPT")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("NM_FUNCAO")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("NM_FUNCIONARIO")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<int>("T_CAMINHAO_ID_CAMINHAO")
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<string>("NmDept")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                    b.HasKey("ID_FUNCIONARIO");
 
-                    b.Property<string>("NmFuncao")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                    b.HasIndex("T_CAMINHAO_ID_CAMINHAO");
 
-                    b.Property<string>("NmFuncionario")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.HasKey("IdFuncionario");
-
-                    b.HasIndex("IdCaminhao");
-
-                    b.ToTable("Funcionario", (string)null);
+                    b.ToTable("T_FUNCIONARIO", (string)null);
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.RotaModel", b =>
                 {
-                    b.Property<int>("IdRota")
+                    b.Property<int>("ID_ROTA")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("NUMBER(10)");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRota"));
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_ROTA"));
 
-                    b.Property<int>("IdAterro")
+                    b.Property<int>("T_ATERRO_ID_ATERRO")
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<int>("IdCaminhao")
+                    b.Property<int>("T_CAMINHAO_ID_CAMINHAO")
                         .HasColumnType("NUMBER(10)");
 
-                    b.HasKey("IdRota");
+                    b.HasKey("ID_ROTA");
 
-                    b.HasIndex("IdCaminhao")
-                        .IsUnique();
+                    b.HasIndex("T_ATERRO_ID_ATERRO");
 
-                    b.ToTable("Rota", (string)null);
-                });
+                    b.HasIndex("T_CAMINHAO_ID_CAMINHAO");
 
-            modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.AterroModel", b =>
-                {
-                    b.HasOne("Fiap.Api.GestaoDeResiduos.Model.RotaModel", "Rota")
-                        .WithOne("Aterro")
-                        .HasForeignKey("Fiap.Api.GestaoDeResiduos.Model.AterroModel", "IdAterro")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Rota");
+                    b.ToTable("T_ROTA", (string)null);
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.ColetaModel", b =>
                 {
                     b.HasOne("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", "Caminhao")
                         .WithMany("Coletas")
-                        .HasForeignKey("IdCaminhao")
+                        .HasForeignKey("T_CAMINHAO_ID_CAMINHAO")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -173,7 +165,7 @@ namespace Fiap.Api.GestaoDeResiduos.Migrations
                 {
                     b.HasOne("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", "Caminhao")
                         .WithMany("Funcionarios")
-                        .HasForeignKey("IdCaminhao")
+                        .HasForeignKey("T_CAMINHAO_ID_CAMINHAO")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -182,13 +174,26 @@ namespace Fiap.Api.GestaoDeResiduos.Migrations
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.RotaModel", b =>
                 {
-                    b.HasOne("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", "Caminhao")
-                        .WithOne("Rota")
-                        .HasForeignKey("Fiap.Api.GestaoDeResiduos.Model.RotaModel", "IdCaminhao")
+                    b.HasOne("Fiap.Api.GestaoDeResiduos.Model.AterroModel", "Aterro")
+                        .WithMany("Rota")
+                        .HasForeignKey("T_ATERRO_ID_ATERRO")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", "Caminhao")
+                        .WithMany("Rota")
+                        .HasForeignKey("T_CAMINHAO_ID_CAMINHAO")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aterro");
+
                     b.Navigation("Caminhao");
+                });
+
+            modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.AterroModel", b =>
+                {
+                    b.Navigation("Rota");
                 });
 
             modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.CaminhaoModel", b =>
@@ -197,13 +202,7 @@ namespace Fiap.Api.GestaoDeResiduos.Migrations
 
                     b.Navigation("Funcionarios");
 
-                    b.Navigation("Rota")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Fiap.Api.GestaoDeResiduos.Model.RotaModel", b =>
-                {
-                    b.Navigation("Aterro");
+                    b.Navigation("Rota");
                 });
 #pragma warning restore 612, 618
         }

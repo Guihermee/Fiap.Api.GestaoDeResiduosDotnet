@@ -6,5 +6,8 @@ namespace Fiap.Api.GestaoDeResiduos.Services
 	{
 		IEnumerable<CaminhaoModel> GetAll();
 		CaminhaoModel GetById(int id);
+		void CriarCaminhao(CaminhaoModel caminhao);
+		void AtualizarCaminhao(CaminhaoModel caminhao);
+		void DeletarCaminhao(int id);
 	}
 }

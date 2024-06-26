@@ -12,7 +12,24 @@ namespace Fiap.Api.GestaoDeResiduos.Data.Repository
 		{
 			databaseContext = context;
 		}
-		public IEnumerable<CaminhaoModel> GetAll() => databaseContext.Caminhoes.ToList();
+
+        public void Add(CaminhaoModel caminhao)
+        {
+            databaseContext.Add(caminhao);
+            databaseContext.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<CaminhaoModel> GetAll() => databaseContext.Caminhoes.ToList();
 		public CaminhaoModel GetById(int id) => databaseContext.Caminhoes.Find(id);
-	}
+
+        public void Update(CaminhaoModel caminhao)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
