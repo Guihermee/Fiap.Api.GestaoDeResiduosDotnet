@@ -1,4 +1,6 @@
-﻿namespace Fiap.Api.GestaoDeResiduos.Model
+﻿using System.Text.Json.Serialization;
+
+namespace Fiap.Api.GestaoDeResiduos.Model
 {
     public class AterroModel
     {
@@ -8,7 +10,8 @@
         public string? NM_LOCALIZACAO { get; set; }
         public bool ST_CAPACIDADE { get; set; }
 
-        // Relacionamento com Rota
-        public ICollection<RotaModel> Rota { get; set; }
+		// Relacionamento com Rota
+		[JsonIgnore]
+		public ICollection<RotaModel> Rota { get; set; }
     }
 }

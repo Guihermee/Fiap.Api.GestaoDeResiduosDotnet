@@ -20,14 +20,34 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<RotaViewModel> Get()
+		public ActionResult<IEnumerable<RotaPagViewModel>> Get([FromQuery] int pagina = 1, [FromQuery] int tamanho = 5)
 		{
-			var lista = _rotaService.GetAll();
+			var lista = _rotaService.ListarRotas(pagina, tamanho);
 			var viewModelList = _mapper.Map<IEnumerable<RotaViewModel>>(lista);
 
-
-			return viewModelList;
+			var viewModel = new RotaPagViewModel
+			{
+				Rotas = viewModelList,
+				CurrentPage = pagina,
+				PageSize = tamanho
+			};
+			return Ok(viewModelList);
 		}
+		[HttpGet("{id}")]
+		public ActionResult<RotaViewModel> GetById(int id)
+		{
+			var rota = _rotaService.GetById(id);
+
+			if (rota == null)
+			{
+				return NotFound();
+			}
+
+			var viewModel = _mapper.Map<RotaViewModel>(rota);
+
+			return viewModel;
+		}
+
 
 		[HttpPost]
 		public IActionResult Post([FromBody] RotaViewModel rota)

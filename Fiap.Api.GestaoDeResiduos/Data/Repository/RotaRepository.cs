@@ -13,8 +13,44 @@ namespace Fiap.Api.GestaoDeResiduos.Data.Repository
 			databaseContext = context;
 		}
 
-        public IEnumerable<RotaModel> GetAll() => databaseContext.Rotas.ToList();
-		public RotaModel GetById(int id) => databaseContext.Rotas.Find(id);
+        public IEnumerable<RotaModel> GetAll()
+        {
+            return databaseContext.Rotas
+                .Include(r => r.Caminhao)
+                .Include(r => r.Aterro)
+                .ToList();
+        }
+		public IEnumerable<RotaModel> GetAll(int page, int size)
+		{
+			return databaseContext.Rotas
+				.Include(r => r.Caminhao)
+				.Include(r => r.Aterro)
+                .Skip((page - 1) * page)
+                .Take(size)
+                .AsNoTracking()
+				.ToList();
+		}
+
+		public IEnumerable<RotaModel> GetAllReference(int lastReference, int size)
+		{
+			return databaseContext.Rotas
+				.Include(r => r.Caminhao)
+				.Include(r => r.Aterro)
+				.Where(c => c.ID_ROTA > lastReference)
+                .OrderBy(c => c.ID_ROTA)
+				.Take(size)
+				.AsNoTracking()
+				.ToList();
+		}
+
+		public RotaModel GetById(int id)
+        {
+            return databaseContext.Rotas
+                .Include(r => r.Caminhao)
+                .Include(r => r.Aterro)
+                .SingleOrDefault(r => r.ID_ROTA == id);
+        }
+
 
         public void Add(RotaModel rota)
         {

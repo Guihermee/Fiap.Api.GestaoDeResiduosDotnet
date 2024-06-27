@@ -15,6 +15,16 @@ namespace Fiap.Api.GestaoDeResiduos.Services
 
         public IEnumerable<RotaModel> GetAll() => rotaRepository.GetAll();
 
+		public IEnumerable<RotaModel> ListarRotas(int pagina = 1, int tamanho = 5)
+		{
+			return rotaRepository.GetAll(pagina, tamanho);
+		}
+
+		public IEnumerable<RotaModel> ListarRotaUltimaReferencia(int ultimoId = 0, int tamanho = 5)
+		{
+			return rotaRepository.GetAllReference(ultimoId, tamanho);
+		}
+
 		public RotaModel GetById(int id) => rotaRepository.GetById(id);
 
         public void AtualizarRota(RotaModel rota)

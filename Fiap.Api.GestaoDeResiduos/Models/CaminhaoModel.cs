@@ -1,4 +1,6 @@
-﻿namespace Fiap.Api.GestaoDeResiduos.Model
+﻿using System.Text.Json.Serialization;
+
+namespace Fiap.Api.GestaoDeResiduos.Model
 {
     public class CaminhaoModel
     {
@@ -7,13 +9,16 @@
         public int VL_CAPACIDADE { get; set; }
         public string? NM_LOCALIZACAO { get; set; }
 
-        // Relacionamento com Coletas
-        public List<ColetaModel> Coletas { get; set; }
+		// Relacionamento com Coletas
+		[JsonIgnore]
+		public List<ColetaModel> Coletas { get; set; }
 
-        // Relacionamento com Funcionarios
-        public List<FuncionarioModel> Funcionarios { get; set; }
+		// Relacionamento com Funcionarios
+		[JsonIgnore]
+		public List<FuncionarioModel> Funcionarios { get; set; }
 
-        // Relacionamento com Rota
-        public ICollection<RotaModel> Rota { get; set; }
+		// Relacionamento com Rota
+		[JsonIgnore]
+		public ICollection<RotaModel> Rota { get; set; }
     }
 }
