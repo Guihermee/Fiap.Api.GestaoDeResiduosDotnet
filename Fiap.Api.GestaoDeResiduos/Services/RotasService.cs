@@ -56,16 +56,11 @@ namespace Fiap.Api.GestaoDeResiduos.Services
             rotaRepository.Add(rota);
         }
 
-        public void DeletarRota(int id)
+        public void DeletarRota(RotaModel rota)
         {
-            var rota = rotaRepository.GetById(id);
-            if (rota == null)
-                {
-                throw new Exception("Rota não encontrada");
-            } else
-            {
-                rotaRepository.Delete(rota);
-            }
+            rotaRepository.Delete(rota);
+
+
         }
     }
 }

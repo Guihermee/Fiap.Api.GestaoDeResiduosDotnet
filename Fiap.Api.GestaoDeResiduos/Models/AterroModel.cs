@@ -12,6 +12,6 @@ namespace Fiap.Api.GestaoDeResiduos.Model
 
 		// Relacionamento com Rota
 		[JsonIgnore]
-		public ICollection<RotaModel> Rota { get; set; }
+		public ICollection<RotaModel>? Rota { get; set; }
     }
 }

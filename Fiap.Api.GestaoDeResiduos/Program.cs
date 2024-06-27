@@ -3,7 +3,11 @@ using Fiap.Api.GestaoDeResiduos.Data.Repository;
 using Fiap.Api.GestaoDeResiduos.Services;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using Fiap.Api.GestaoDeResiduos.Model; // Adicione esta linha
+using Fiap.Api.GestaoDeResiduos.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Oracle.ManagedDataAccess.Client; // Adicione esta linha
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,7 @@ builder.Services.AddDbContext<DatabaseContext>(
 );
 #endregion
 
+#region Mapper
 // Add services to the container.
 var mapperConfig = new AutoMapper.MapperConfiguration(c =>
 {
@@ -31,7 +36,9 @@ var mapperConfig = new AutoMapper.MapperConfiguration(c =>
 );
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+#endregion
 
+#region Repositorios
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // Adicione esta linha
 																		 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -46,6 +53,34 @@ builder.Services.AddScoped<ICaminhaoService, CaminhaoService>();
 
 builder.Services.AddScoped<IAterroRepository, AterroRepository>();
 builder.Services.AddScoped<IAterroService, AterroService>();
+
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+#endregion
+
+#region Auth
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi")),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+#endregion
 
 var app = builder.Build();
 

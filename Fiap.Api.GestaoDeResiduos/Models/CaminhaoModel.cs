@@ -11,14 +11,14 @@ namespace Fiap.Api.GestaoDeResiduos.Model
 
 		// Relacionamento com Coletas
 		[JsonIgnore]
-		public List<ColetaModel> Coletas { get; set; }
+		public List<ColetaModel>? Coletas { get; set; }
 
 		// Relacionamento com Funcionarios
 		[JsonIgnore]
-		public List<FuncionarioModel> Funcionarios { get; set; }
+		public List<FuncionarioModel>? Funcionarios { get; set; }
 
 		// Relacionamento com Rota
 		[JsonIgnore]
-		public ICollection<RotaModel> Rota { get; set; }
+		public ICollection<RotaModel>? Rota { get; set; }
     }
 }

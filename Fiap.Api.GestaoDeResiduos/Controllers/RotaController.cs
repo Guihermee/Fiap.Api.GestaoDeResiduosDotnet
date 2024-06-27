@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
+using Fiap.Api.GestaoDeResiduos.Data.Repository;
 using Fiap.Api.GestaoDeResiduos.Model;
 using Fiap.Api.GestaoDeResiduos.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Fiap.Api.GestaoDeResiduos.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class RotaController : ControllerBase
 	{
 		private readonly IRotasService _rotaService;
@@ -20,7 +24,8 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<RotaPagViewModel>> Get([FromQuery] int pagina = 1, [FromQuery] int tamanho = 5)
+        [Authorize(Roles = "operador,analista,gerente")]
+        public ActionResult<IEnumerable<RotaPagViewModel>> Get([FromQuery] int pagina = 1, [FromQuery] int tamanho = 5)
 		{
 			var lista = _rotaService.ListarRotas(pagina, tamanho);
 			var viewModelList = _mapper.Map<IEnumerable<RotaViewModel>>(lista);
@@ -34,7 +39,8 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 			return Ok(viewModelList);
 		}
 		[HttpGet("{id}")]
-		public ActionResult<RotaViewModel> GetById(int id)
+        [Authorize(Roles = "operador,analista,gerente")]
+        public ActionResult<RotaViewModel> GetById(int id)
 		{
 			var rota = _rotaService.GetById(id);
 
@@ -48,22 +54,34 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 			return viewModel;
 		}
 
-
-		[HttpPost]
-		public IActionResult Post([FromBody] RotaViewModel rota)
-        { 
+        [HttpPost]
+        [Authorize(Roles = "analista,gerente")]
+        public IActionResult Post([FromBody] RotaViewModel rota)
+        {
 
             if (rota == null)
             {
                 return BadRequest();
             }
 
-            _rotaService.CriarRota(_mapper.Map<RotaModel>(rota));
-
-            return CreatedAtAction(nameof(Get), new { id = rota.ID_ROTA }, rota);
+            try
+            {
+                _rotaService.CriarRota(_mapper.Map<RotaModel>(rota));
+                return CreatedAtAction(nameof(Get), new { id = rota.ID_ROTA }, rota);
+            }
+            catch (Exception ex) when (ex.InnerException is OracleException oracleEx && oracleEx.Number == 2291)
+            {
+                return BadRequest(new { Message = "Parent key not found. Please check Caminhao or Aterro IDs.", Detail = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
-				//PUT
+
+        //PUT
         [HttpPut("{id}")]
+        [Authorize(Roles = "analista,gerente")]
         public ActionResult Put([FromRoute] int id, [FromBody] RotaViewModel rota)
         {  
 			if(rota.ID_ROTA == id)
@@ -76,18 +94,23 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 			}
         }
 
-
         //delete
         [HttpDelete("{id}")]
+        [Authorize(Roles = "analista,gerente")]
         public ActionResult Delete([FromRoute] int id)
         {
-            _rotaService.DeletarRota(id);
 
-            return NoContent();
+			var rota = _rotaService.GetById(id);
+            if (rota == null)
+            {
+                return BadRequest(new { Message = "Id da Rota não encontrada!" });
+            }
+            else
+            {
+                _rotaService.DeletarRota(rota);
+                return NoContent();
+            }
         }
 
-
+	}
 }
-
-}
-
