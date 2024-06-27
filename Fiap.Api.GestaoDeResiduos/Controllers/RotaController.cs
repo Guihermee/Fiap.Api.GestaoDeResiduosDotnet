@@ -51,7 +51,7 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 
 		[HttpPost]
 		public IActionResult Post([FromBody] RotaViewModel rota)
-        {
+        { 
 
             if (rota == null)
             {
@@ -61,6 +61,19 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
             _rotaService.CriarRota(_mapper.Map<RotaModel>(rota));
 
             return CreatedAtAction(nameof(Get), new { id = rota.ID_ROTA }, rota);
+        }
+				//PUT
+        [HttpPut("{id}")]
+        public ActionResult Put([FromRoute] int id, [FromBody] RotaViewModel rota)
+        {  
+			if(rota.ID_ROTA == id)
+			{
+			var rotaModel = _mapper.Map<RotaModel>(rota); 
+			_rotaService.AtualizarRota(rotaModel);
+			return NoContent();
+			} else {
+				return BadRequest();
+			}
         }
 
 
@@ -73,5 +86,8 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
             return NoContent();
         }
 
-    }
+
 }
+
+}
+

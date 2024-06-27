@@ -60,7 +60,8 @@ namespace Fiap.Api.GestaoDeResiduos.Data.Repository
 
         public void Update(RotaModel rota)
         {
-            throw new NotImplementedException();
+            databaseContext.Rotas.Update(rota);
+            databaseContext.SaveChanges();
         }
 
         public void Delete(RotaModel rota)
