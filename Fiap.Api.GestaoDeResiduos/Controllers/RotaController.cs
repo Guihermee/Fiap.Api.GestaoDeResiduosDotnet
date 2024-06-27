@@ -38,9 +38,10 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 			};
 			return Ok(viewModelList);
 		}
+
 		[HttpGet("{id}")]
-        [Authorize(Roles = "operador,analista,gerente")]
-        public ActionResult<RotaViewModel> GetById(int id)
+		[Authorize(Roles = "operador,analista,gerente")]
+		public ActionResult<RotaViewModel> GetById(int id)
 		{
 			var rota = _rotaService.GetById(id);
 
@@ -51,10 +52,11 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 
 			var viewModel = _mapper.Map<RotaViewModel>(rota);
 
-			return viewModel;
+			return Ok(viewModel);
 		}
 
-        [HttpPost]
+
+		[HttpPost]
         [Authorize(Roles = "analista,gerente")]
         public IActionResult Post([FromBody] RotaViewModel rota)
         {
