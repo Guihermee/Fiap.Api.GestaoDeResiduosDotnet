@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Fiap.Api.GestaoDeResiduos.Controllers
-{
+{  
 	[Route("api/[controller]")]
 	[ApiController]
 	[Authorize]
@@ -116,3 +116,4 @@ namespace Fiap.Api.GestaoDeResiduos.Controllers
 
 	}
 }
+//comentario
